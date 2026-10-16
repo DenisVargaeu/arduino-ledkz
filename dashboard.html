@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Solar Tracker - Material 3 Expressive Pro Dashboard</title>
+  <style>
+    /* ==========================================================================
+       MATERIAL 3 EXPRESSIVE - DESIGN SYSTEM TOKENS
+       ========================================================================== */
+    :root {
+      --md-sys-color-primary: #ffb951;
+      --md-sys-color-on-primary: #452b00;
+      --md-sys-color-primary-container: #633f00;
+      --md-sys-color-on-primary-container: #ffddb3;
+
+      --md-sys-color-secondary: #7cd0ff;
+      --md-sys-color-on-secondary: #00344f;
+      --md-sys-color-secondary-container: #004c71;
+      --md-sys-color-on-secondary-container: #c6e7ff;
+
+      --md-sys-color-tertiary: #69dc9e;
+      --md-sys-color-on-tertiary: #003920;
+      --md-sys-color-tertiary-container: #005230;
+      --md-sys-color-on-tertiary-container: #86f8b8;
+
+      --md-sys-color-error: #ffb4ab;
+      --md-sys-color-error-container: #93000a;
+
+      --md-sys-color-surface: #101216;
+      --md-sys-color-surface-dim: #101216;
+      --md-sys-color-surface-container-lowest: #0b0d10;
+      --md-sys-color-surface-container-low: #181a1e;
+      --md-sys-color-surface-container: #1e2024;
+      --md-sys-color-surface-container-high: #292b30;
+      --md-sys-color-surface-container-highest: #34363c;
+
+      --md-sys-color-on-surface: #e2e2e6;
+      --md-sys-color-on-surface-variant: #c4c6d0;
+      --md-sys-color-outline: #8e9099;
+      --md-sys-color-outline-variant: #44474f;
+
+      --md-shape-corner-small: 8px;
+      --md-shape-corner-medium: 16px;
+      --md-shape-corner-large: 24px;
+      --md-shape-corner-extra-large: 28px;
+      --md-shape-corner-full: 9999px;
+
+      --md-elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.25);
+      --md-elevation-2: 0 4px 10px 2px rgba(0, 0, 0, 0.35);
+      --md-elevation-3: 0 8px 24px 4px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Google Sans', 'Plus Jakarta Sans', Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 1280px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* TOP APP BAR */
+    .top-app-bar {
+      background: var(--md-sys-color-surface-container);
+      border-radius: var(--md-shape-corner-extra-large);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--md-elevation-1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--md-shape-corner-medium);
+      background: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 24px rgba(255, 185, 81, 0.25);
+    }
+
+    .brand-titles h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .brand-titles p {
+      font-size: 0.82rem;
+      color: var(--md-sys-color-on-surface-variant);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .m3-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--md-shape-corner-full);
+      background: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .status-indicator-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--md-sys-color-error);
+      box-shadow: 0 0 8px var(--md-sys-color-error);
+      transition: all 0.3s;
+    }
+
+    .status-indicator-dot.connected {
+      background: var(--md-sys-color-tertiary);
+      box-shadow: 0 0 12px var(--md-sys-color-tertiary);
+    }
+
+    .m3-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: var(--md-shape-corner-full);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .m3-button-primary {
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .m3-button-primary:hover {
+      background: #ffc873;
+      transform: translateY(-1px);
+      box-shadow: var(--md-elevation-2), 0 0 16px rgba(255, 185, 81, 0.4);
+    }
+
+    .m3-button-tonal {
+      background: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface);
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-button-tonal:hover {
+      background: var(--md-sys-color-surface-container-highest);
+      color: var(--md-sys-color-primary);
+    }
+
+    .m3-button-danger {
+      background: var(--md-sys-color-error-container);
+      color: var(--md-sys-color-error);
+      display: none;
+    }
+
+    .m3-button-danger:hover {
+      background: #b30010;
+      color: #fff;
+    }
+
+    /* HERO LIVE STATUS BANNER */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--md-sys-color-surface-container-high) 0%, var(--md-sys-color-surface-container) 100%);
+      border-radius: var(--md-shape-corner-extra-large);
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: var(--md-elevation-1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hero-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--md-sys-color-primary);
+    }
+
+    .hero-status-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--md-sys-color-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-chips-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .m3-tonal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--md-shape-corner-large);
+      background: var(--md-sys-color-surface-container-highest);
+      color: var(--md-sys-color-on-surface);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .m3-tonal-badge b {
+      color: var(--md-sys-color-primary);
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    /* DASHBOARD GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+      gap: 24px;
+    }
+
+    .m3-card {
+      background: var(--md-sys-color-surface-container);
+      border-radius: var(--md-shape-corner-extra-large);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: var(--md-elevation-1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .m3-card:hover {
+      box-shadow: var(--md-elevation-2);
+    }
+
+    .m3-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .m3-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--md-sys-color-on-surface);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ==========================================================================
+       COOL FEATURE 1: 3D INTERACTIVE SOLAR PANEL VISUALIZER
+       ========================================================================== */
+    .viewport-3d-card {
+      background: radial-gradient(circle at center, #1b2438 0%, #0d1017 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scene-3d-wrapper {
+      width: 100%;
+      height: 280px;
+      perspective: 800px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Glowing Virtual Sun */
+    .sun-orb-3d {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #ffb951 45%, rgba(255, 185, 81, 0) 70%);
+      box-shadow: 0 0 40px #ffb951, 0 0 80px rgba(255, 185, 81, 0.4);
+      top: 30px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+      z-index: 2;
+    }
+
+    /* 3D Model Assembly */
+    .panel-gimbal-base {
+      width: 140px;
+      height: 140px;
+      transform-style: preserve-3d;
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Circular TurnTable */
+    .turntable-disc {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #1e222d;
+      border: 3px solid #333a4d;
+      transform: rotateX(70deg) translateZ(-40px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Pivot arm */
+    .pivot-bracket {
+      position: absolute;
+      width: 16px;
+      height: 70px;
+      background: linear-gradient(180deg, #384259, #1c212e);
+      border-radius: 8px;
+      transform: translateZ(-10px);
+    }
+
+    /* The actual Photovoltaic Panel */
+    .solar-panel-3d {
+      width: 220px;
+      height: 140px;
+      background: linear-gradient(135deg, #0f2b48 0%, #081726 100%);
+      border: 4px solid #475569;
+      border-radius: 12px;
+      transform-style: preserve-3d;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(56, 189, 248, 0.2);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 3px;
+      padding: 6px;
+      position: relative;
+    }
+
+    .solar-cell-grid {
+      background: rgba(30, 58, 95, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 4px;
+    }
+
+    /* Mini LDR Cross on the panel face */
+    .mini-cross-fixture {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      background: #090d14;
+      border: 2px solid #64748b;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      padding: 3px;
+    }
+
+    .mini-ldr-dot {
+      background: #f59e0b;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    /* ==========================================================================
+       COOL FEATURE 2: SOLAR EFFICIENCY & TRACKER GAIN METRICS
+       ========================================================================== */
+    .efficiency-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metric-gauge-tile {
+      background: var(--md-sys-color-surface-container-low);
+      border-radius: var(--md-shape-corner-large);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .gauge-circle-wrap {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-circle-wrap svg {
+      transform: rotate(-90deg);
+    }
+
+    .gauge-center-text {
+      position: absolute;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--md-sys-color-tertiary);
+    }
+
+    .metric-caption {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .metric-gain-badge {
+      font-size: 0.72rem;
+      color: var(--md-sys-color-primary);
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       MANUAL OVERRIDE & D-PAD
+       ========================================================================== */
+    .m3-switch-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--md-sys-color-surface-container-high);
+      padding: 12px 20px;
+      border-radius: var(--md-shape-corner-large);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.25s ease;
+    }
+
+    .m3-switch-track {
+      width: 52px;
+      height: 32px;
+      border-radius: var(--md-shape-corner-full);
+      background: var(--md-sys-color-surface-container-highest);
+      border: 2px solid var(--md-sys-color-outline);
+      position: relative;
+      transition: all 0.25s;
+    }
+
+    .m3-switch-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--md-sys-color-outline);
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      transition: all 0.25s;
+    }
+
+    .m3-switch-wrapper.active {
+      border-color: var(--md-sys-color-primary);
+      background: rgba(255, 185, 81, 0.08);
+    }
+
+    .m3-switch-wrapper.active .m3-switch-track {
+      background: var(--md-sys-color-primary);
+      border-color: var(--md-sys-color-primary);
+    }
+
+    .m3-switch-wrapper.active .m3-switch-thumb {
+      background: var(--md-sys-color-on-primary);
+      transform: translateX(20px);
+      width: 24px;
+      height: 24px;
+      top: 2px;
+      left: 4px;
+    }
+
+    .dpad-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .dpad-grid {
+      display: grid;
+      grid-template-columns: 70px 70px 70px;
+      grid-template-rows: 70px 70px 70px;
+      gap: 10px;
+    }
+
+    .dpad-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 22px;
+      background: var(--md-sys-color-surface-container-high);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-on-surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 700;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .dpad-btn:hover:not(:disabled) {
+      background: var(--md-sys-color-surface-container-highest);
+      color: var(--md-sys-color-primary);
+      border-color: var(--md-sys-color-primary);
+      transform: translateY(-2px);
+    }
+
+    .dpad-btn:active:not(:disabled), .dpad-btn.active-press {
+      background: var(--md-sys-color-primary) !important;
+      color: var(--md-sys-color-on-primary) !important;
+      transform: scale(0.92) !important;
+    }
+
+    .dpad-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .dpad-btn-center {
+      background: var(--md-sys-color-surface-container-highest);
+      border-radius: var(--md-shape-corner-full);
+    }
+
+    /* RADAR SCANNING BUTTON */
+    .btn-radar-scan {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-radar-scan.scanning::after {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from 0deg, rgba(255,255,255,0.4), transparent 60%);
+      animation: radarSpin 1.2s linear infinite;
+    }
+
+    @keyframes radarSpin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* LDR SQUIRCLE CROSS */
+    .solar-cross-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      background: var(--md-sys-color-surface-container-lowest);
+      border-radius: 36px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .cross-divider-line-v {
+      position: absolute;
+      left: 50%;
+      top: 14px;
+      bottom: 14px;
+      width: 6px;
+      background: var(--md-sys-color-surface-container-high);
+      transform: translateX(-50%);
+      border-radius: var(--md-shape-corner-full);
+      z-index: 4;
+    }
+
+    .cross-divider-line-h {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      right: 14px;
+      height: 6px;
+      background: var(--md-sys-color-surface-container-high);
+      transform: translateY(-50%);
+      border-radius: var(--md-shape-corner-full);
+      z-index: 4;
+    }
+
+    .ldr-cell {
+      background: var(--md-sys-color-surface-container-low);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all 0.3s;
+    }
+
+    .ldr-cell .cell-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface-variant);
+      z-index: 3;
+    }
+
+    .ldr-cell .cell-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--md-sys-color-on-surface);
+      margin-top: 3px;
+      z-index: 3;
+    }
+
+    .cell-sun-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255, 185, 81, 0.6) 0%, rgba(255, 185, 81, 0) 75%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: 1;
+    }
+
+    .m3-progress-track {
+      height: 12px;
+      background: var(--md-sys-color-surface-container-highest);
+      border-radius: var(--md-shape-corner-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .m3-progress-fill {
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, var(--md-sys-color-secondary), var(--md-sys-color-primary));
+      border-radius: var(--md-shape-corner-full);
+      transition: width 0.25s;
+    }
+
+    /* SERVOS */
+    .servos-dual-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .servo-actuator-card {
+      background: var(--md-sys-color-surface-container-low);
+      border-radius: var(--md-shape-corner-large);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .actuator-angle-display {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--md-sys-color-primary);
+      line-height: 1;
+    }
+
+    /* ERROR BIPHASIC SLIDERS */
+    .biphasic-track {
+      height: 14px;
+      background: var(--md-sys-color-surface-container-highest);
+      border-radius: var(--md-shape-corner-full);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .biphasic-center-mark {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--md-sys-color-on-surface);
+      transform: translateX(-50%);
+      opacity: 0.4;
+      z-index: 3;
+    }
+
+    .biphasic-deadzone-capsule {
+      position: absolute;
+      left: 47.2%;
+      width: 5.6%;
+      top: 0;
+      bottom: 0;
+      background: rgba(105, 220, 158, 0.35);
+      border-radius: var(--md-shape-corner-full);
+      z-index: 2;
+    }
+
+    .biphasic-needle {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      width: 10px;
+      border-radius: var(--md-shape-corner-full);
+      background: var(--md-sys-color-primary);
+      box-shadow: 0 0 10px var(--md-sys-color-primary);
+      transform: translateX(-50%);
+      left: 50%;
+      transition: left 0.25s;
+      z-index: 4;
+    }
+
+    .chart-surface-card {
+      background: var(--md-sys-color-surface-container-low);
+      border-radius: var(--md-shape-corner-large);
+      padding: 12px;
+      height: 140px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* CONSOLE & EXPORT */
+    .full-width-card {
+      grid-column: 1 / -1;
+    }
+
+    .terminal-container {
+      background: var(--md-sys-color-surface-container-lowest);
+      border-radius: var(--md-shape-corner-large);
+      padding: 16px;
+      height: 130px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--md-sys-color-outline);
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .log-line.json { color: var(--md-sys-color-secondary); }
+    .log-line.info { color: var(--md-sys-color-primary); }
+    .log-line.err  { color: var(--md-sys-color-error); }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--md-sys-color-outline);
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 16px; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .servos-dual-container, .efficiency-card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- TOP APP BAR -->
+    <header class="top-app-bar">
+      <div class="brand-group">
+        <div class="brand-icon-box">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1>Smart Solar Tracker Pro</h1>
+          <p>Arduino UNO R4 WiFi • Material 3 Expressive System</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Audio Synth Toggle -->
+        <button id="btnAudioToggle" class="m3-chip" onclick="toggleAudio()" style="cursor: pointer;" title="Prepnúť syntetizované zvuky">
+          <span id="audioIcon">🔊</span>
+          <span id="audioText">Zvuk ZAP</span>
+        </button>
+
+        <div class="m3-chip">
+          <div id="statusDot" class="status-indicator-dot"></div>
+          <span id="portText">Nepripojené</span>
+        </div>
+
+        <span id="packetRate" style="font-size: 0.85rem; font-weight: 700; color: var(--md-sys-color-primary);">0 Hz</span>
+        
+        <button id="btnConnect" class="m3-button m3-button-primary" onclick="connectSerial()">
+          🔌 Pripojiť Arduino
+        </button>
+
+        <button id="btnDisconnect" class="m3-button m3-button-danger" onclick="disconnectSerial()">
+          Odpojiť port
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO LIVE STATUS BANNER -->
+    <div class="hero-banner">
+      <div class="hero-info-group">
+        <div class="hero-label">Aktuálny prevádzkový stav</div>
+        <div id="heroStatusText" class="hero-status-title">
+          <span id="heroStatusIcon">🎯</span>
+          <span id="heroStatusTitle">CENTER</span>
+        </div>
+      </div>
+
+      <div class="hero-chips-group">
+        <div class="m3-tonal-badge">
+          Súčet svetla: <b id="heroLightSum">0</b>
+        </div>
+        <div class="m3-tonal-badge">
+          Azimut D9: <b id="heroD9">75°</b>
+        </div>
+        <div class="m3-tonal-badge">
+          Elevácia D8: <b id="heroD8">135°</b>
+        </div>
+        <div id="badgeMode" class="m3-tonal-badge" style="border: 1px solid var(--md-sys-color-outline-variant);">
+          Režim: <b id="txtMode" style="color: var(--md-sys-color-secondary);">AUTO</b>
+        </div>
+        <button id="btnSkyScan" class="m3-button m3-button-tonal btn-radar-scan" onclick="triggerSkyScan()" title="Prehľadá celú oblohu a nájde najjasnejší bod">
+          🛰️ Skenovať oblohu
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CARDS -->
+    <div class="dashboard-grid">
+
+      <!-- COOL FEATURE 1: 3D INTERACTIVE SOLAR PANEL -->
+      <div class="m3-card viewport-3d-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-primary)" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+            3D Virtuálny Model Trackera
+          </div>
+          <span class="m3-chip" style="font-size: 0.72rem; padding: 4px 10px;">Živá orientácia</span>
+        </div>
+
+        <div class="scene-3d-wrapper">
+          <!-- Floating Glowing Sun -->
+          <div id="sunOrb3D" class="sun-orb-3d"></div>
+
+          <!-- Gimbal and Panel Base -->
+          <div class="panel-gimbal-base">
+            <div class="turntable-disc"></div>
+            <div class="pivot-bracket"></div>
+
+            <!-- Photovoltaic Panel in 3D -->
+            <div id="panel3D" class="solar-panel-3d" style="transform: rotateY(0deg) rotateX(45deg);">
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+              <div class="solar-cell-grid"></div>
+
+              <!-- Miniature sensor cross on panel face -->
+              <div class="mini-cross-fixture">
+                <div id="miniTL" class="mini-ldr-dot"></div>
+                <div id="miniTR" class="mini-ldr-dot"></div>
+                <div id="miniBL" class="mini-ldr-dot"></div>
+                <div id="miniBR" class="mini-ldr-dot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.78rem; color: var(--md-sys-color-on-surface-variant); text-align: center;">
+          Panel sa v reálnom čase natáča podľa servomotorov D9 a D8. Slnko zobrazuje odhadovaný vektor žiarenia.
+        </div>
+      </div>
+
+      <!-- COOL FEATURE 2: SOLAR EFFICIENCY & GAIN -->
+      <div class="m3-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-tertiary)" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+            Solárna účinnosť a Energetický zisk
+          </div>
+          <span class="m3-chip" style="font-size: 0.72rem; padding: 4px 10px; color: var(--md-sys-color-tertiary);">Optimalizované</span>
+        </div>
+
+        <div class="efficiency-card-grid">
+          <!-- Alignment Gauge -->
+          <div class="metric-gauge-tile">
+            <div class="gauge-circle-wrap">
+              <svg width="100" height="100">
+                <circle cx="50" cy="50" r="42" stroke="var(--md-sys-color-surface-container-highest)" stroke-width="10" fill="none"></circle>
+                <circle id="circleEff" cx="50" cy="50" r="42" stroke="var(--md-sys-color-tertiary)" stroke-width="10" fill="none" stroke-dasharray="264" stroke-dashoffset="30" stroke-linecap="round" style="transition: stroke-dashoffset 0.3s;"></circle>
+              </svg>
+              <span id="txtEffVal" class="gauge-center-text">98%</span>
+            </div>
+            <span class="metric-caption">Účinnosť vycentrovania</span>
+            <span class="metric-gain-badge">Lambertov zákon</span>
+          </div>
+
+          <!-- Gain vs Static Panel -->
+          <div class="metric-gauge-tile">
+            <div class="gauge-circle-wrap">
+              <svg width="100" height="100">
+                <circle cx="50" cy="50" r="42" stroke="var(--md-sys-color-surface-container-highest)" stroke-width="10" fill="none"></circle>
+                <circle cx="50" cy="50" r="42" stroke="var(--md-sys-color-primary)" stroke-width="10" fill="none" stroke-dasharray="264" stroke-dashoffset="75" stroke-linecap="round"></circle>
+              </svg>
+              <span id="txtGainVal" class="gauge-center-text" style="color: var(--md-sys-color-primary);">+38%</span>
+            </div>
+            <span class="metric-caption">Prínos oproti fixnému</span>
+            <span class="metric-gain-badge">2-osé solárne sledovanie</span>
+          </div>
+        </div>
+
+        <!-- Session Highlights -->
+        <div style="background: var(--md-sys-color-surface-container-low); padding: 14px 18px; border-radius: var(--md-shape-corner-medium); font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">
+          <span>Maximum svetla relácie:</span>
+          <b id="txtPeakLight" style="color: var(--md-sys-color-primary); font-size: 1rem;">0</b>
+        </div>
+      </div>
+
+      <!-- CARD 3: MANUAL OVERRIDE (D-PAD & ARROWS) -->
+      <div class="m3-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-primary)" stroke-width="2">
+              <polygon points="6 2 18 2 18 6 6 6"></polygon>
+              <rect x="3" y="6" width="18" height="16" rx="2"></rect>
+              <circle cx="8" cy="12" r="1"></circle>
+              <circle cx="16" cy="12" r="1"></circle>
+            </svg>
+            Manuálne ovládanie (Override)
+          </div>
+          <span id="manualBadge" class="m3-chip" style="font-size: 0.72rem; padding: 4px 12px;">VYPNUTÉ</span>
+        </div>
+
+        <div id="switchOverride" class="m3-switch-wrapper" onclick="toggleManualMode()">
+          <div class="m3-switch-track">
+            <div class="m3-switch-thumb"></div>
+          </div>
+          <div>
+            <div style="font-size: 0.95rem; font-weight: 700;">Aktivovať manuálny režim</div>
+            <div style="font-size: 0.78rem; color: var(--md-sys-color-on-surface-variant);">Povolí ovládanie šípkami na klávesnici (▲ ▼ ◀ ▶)</div>
+          </div>
+        </div>
+
+        <div class="dpad-container">
+          <div class="dpad-grid">
+            <div></div>
+            <button id="btnDpadUp" class="dpad-btn" onclick="sendMove('MOVE:UP')" disabled title="Hore (Šípka hore)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              <span>HORE</span>
+            </button>
+            <div></div>
+
+            <button id="btnDpadLeft" class="dpad-btn" onclick="sendMove('MOVE:LEFT')" disabled title="Vľavo (Šípka vľavo)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span>VĽAVO</span>
+            </button>
+
+            <button id="btnDpadCenter" class="dpad-btn dpad-btn-center" onclick="sendMove('MOVE:CENTER')" disabled title="Vycentrovať">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>STRED</span>
+            </button>
+
+            <button id="btnDpadRight" class="dpad-btn" onclick="sendMove('MOVE:RIGHT')" disabled title="Vpravo (Šípka vpravo)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              <span>VPRAVO</span>
+            </button>
+
+            <div></div>
+            <button id="btnDpadDown" class="dpad-btn" onclick="sendMove('MOVE:DOWN')" disabled title="Dole (Šípka dole)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <span>DOLE</span>
+            </button>
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4: 4-LDR SOLAR CROSS -->
+      <div class="m3-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-primary)" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+              <line x1="12" y1="3" x2="12" y2="21"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+            </svg>
+            Tieniaci kríž (4x LDR)
+          </div>
+          <span id="badgeLight" class="m3-tonal-badge" style="padding: 4px 12px; font-size: 0.75rem;">ADC Hodnoty</span>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+          <div class="solar-cross-wrapper">
+            <div class="cross-divider-line-v"></div>
+            <div class="cross-divider-line-h"></div>
+
+            <div class="ldr-cell">
+              <div id="glowA2" class="cell-sun-glow"></div>
+              <span class="cell-label">VĽAVO HORE</span>
+              <span id="txtA2" class="cell-value">0</span>
+            </div>
+
+            <div class="ldr-cell">
+              <div id="glowA0" class="cell-sun-glow"></div>
+              <span class="cell-label">VPRAVO HORE</span>
+              <span id="txtA0" class="cell-value">0</span>
+            </div>
+
+            <div class="ldr-cell">
+              <div id="glowA3" class="cell-sun-glow"></div>
+              <span class="cell-label">VĽAVO DOLE</span>
+              <span id="txtA3" class="cell-value">0</span>
+            </div>
+
+            <div class="ldr-cell">
+              <div id="glowA1" class="cell-sun-glow"></div>
+              <span class="cell-label">VPRAVO DOLE</span>
+              <span id="txtA1" class="cell-value">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+              <span>VĽAVO: <b id="txtLeftVal">0</b></span>
+              <span>VPRAVO: <b id="txtRightVal">0</b></span>
+            </div>
+            <div class="m3-progress-track"><div id="progBarH" class="m3-progress-fill"></div></div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+              <span>HORE: <b id="txtTopVal">0</b></span>
+              <span>DOLE: <b id="txtBottomVal">0</b></span>
+            </div>
+            <div class="m3-progress-track"><div id="progBarV" class="m3-progress-fill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5: SERVOMOTORS & GAUGES -->
+      <div class="m3-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-secondary)" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            Aktuálne Uhly Servomotorov
+          </div>
+          <span class="m3-chip" style="font-size: 0.72rem; padding: 4px 10px;">D9 & D8</span>
+        </div>
+
+        <div class="servos-dual-container">
+          <div class="servo-actuator-card">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--md-sys-color-on-surface-variant);">AZIMUT (D9)</span>
+            <span id="txtD9Angle" class="actuator-angle-display">75°</span>
+            <span style="font-size: 0.72rem; color: var(--md-sys-color-outline);">30° – 120°</span>
+            <div style="width: 100%; height: 8px; background: var(--md-sys-color-surface-container-highest); border-radius: 4px; overflow: hidden;">
+              <div id="progD9" style="height: 100%; width: 50%; background: var(--md-sys-color-primary); transition: width 0.25s;"></div>
+            </div>
+            <span id="txtD9Status" style="font-size: 0.8rem; font-weight: 700; color: var(--md-sys-color-secondary);">CENTER</span>
+          </div>
+
+          <div class="servo-actuator-card">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--md-sys-color-on-surface-variant);">ELEVÁCIA (D8)</span>
+            <span id="txtD8Angle" class="actuator-angle-display">135°</span>
+            <span style="font-size: 0.72rem; color: var(--md-sys-color-outline);">90° – 180°</span>
+            <div style="width: 100%; height: 8px; background: var(--md-sys-color-surface-container-highest); border-radius: 4px; overflow: hidden;">
+              <div id="progD8" style="height: 100%; width: 50%; background: var(--md-sys-color-primary); transition: width 0.25s;"></div>
+            </div>
+            <span id="txtD8Status" style="font-size: 0.8rem; font-weight: 700; color: var(--md-sys-color-secondary);">CENTER</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6: ERROR METRICS & CHART -->
+      <div class="m3-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-tertiary)" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            Regulačné Odchýlky (Chyba)
+          </div>
+          <span class="m3-tonal-badge" style="padding: 4px 10px; font-size: 0.72rem; color: var(--md-sys-color-tertiary);">Mŕtva zóna: ±2.8%</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px;">
+              <span>H_ERR:</span>
+              <span id="txtHErrVal" style="font-family: monospace; font-weight: 700;">0.0000</span>
+            </div>
+            <div class="biphasic-track">
+              <div class="biphasic-center-mark"></div>
+              <div class="biphasic-deadzone-capsule"></div>
+              <div id="needleH" class="biphasic-needle"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px;">
+              <span>V_ERR:</span>
+              <span id="txtVErrVal" style="font-family: monospace; font-weight: 700;">0.0000</span>
+            </div>
+            <div class="biphasic-track">
+              <div class="biphasic-center-mark"></div>
+              <div class="biphasic-deadzone-capsule"></div>
+              <div id="needleV" class="biphasic-needle"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-surface-card">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+
+      <!-- CARD 7: RAW SERIAL API STREAM & CSV EXPORT -->
+      <div class="m3-card full-width-card">
+        <div class="m3-card-header">
+          <div class="m3-card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--md-sys-color-outline)" stroke-width="2">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+            Sériové JSON API & Export Dát
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="m3-button m3-button-tonal" onclick="exportDataCSV()" style="padding: 6px 14px; font-size: 0.78rem;">
+              📥 Stiahnuť CSV
+            </button>
+            <button class="m3-button m3-button-tonal" onclick="clearConsoleLog()" style="padding: 6px 14px; font-size: 0.78rem;">
+              Vyčistiť log
+            </button>
+          </div>
+        </div>
+        <div id="terminalStream" class="terminal-container">
+          <div class="log-line info">Pripravené. Pre načítanie živého API kliknite na tlačidlo 'Pripojiť Arduino'.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      Smart Solar Tracker Pro • Material 3 Expressive System • Arduino UNO R4 WiFi
+    </footer>
+
+  </div>
+
+  <script>
+    let port = null;
+    let reader = null;
+    let keepReading = false;
+    let packetCount = 0;
+    let lastTime = Date.now();
+    let isManualModeActive = false;
+    let isAudioEnabled = true;
+    let maxLightRecorded = 0;
+
+    // Telemetry CSV recording history
+    const telemetryHistory = [];
+
+    // Web Audio Synthesizer Context
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, type = "sine", duration = 0.12, gainVal = 0.1) {
+      if (!isAudioEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playLockChime() {
+      playTone(587.33, "sine", 0.15, 0.08); // D5
+      setTimeout(() => playTone(880.00, "sine", 0.25, 0.1), 100); // A5
+    }
+
+    function toggleAudio() {
+      isAudioEnabled = !isAudioEnabled;
+      document.getElementById('audioIcon').innerText = isAudioEnabled ? "🔊" : "🔇";
+      document.getElementById('audioText').innerText = isAudioEnabled ? "Zvuk ZAP" : "Zvuk VYP";
+      if (isAudioEnabled) playTone(660, "triangle", 0.1, 0.1);
+    }
+
+    // Chart buffer
+    const historyH = new Array(120).fill(0);
+    const historyV = new Array(120).fill(0);
+
+    const canvas = document.getElementById('trendChart');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawChart() {
+      if (!canvas.width) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const midY = canvas.height / 2;
+      const stepX = canvas.width / (historyH.length - 1);
+
+      const dzHeight = (canvas.height / 2) * 0.056;
+      ctx.fillStyle = "rgba(105, 220, 158, 0.12)";
+      ctx.fillRect(0, midY - dzHeight, canvas.width, dzHeight * 2);
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, midY);
+      ctx.lineTo(canvas.width, midY);
+      ctx.stroke();
+
+      // H-Error (Cyan)
+      ctx.strokeStyle = "#7cd0ff";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let i = 0; i < historyH.length; i++) {
+        const x = i * stepX;
+        const y = midY - (historyH[i] * (midY * 0.9));
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // V-Error (Amber)
+      ctx.strokeStyle = "#ffb951";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let i = 0; i < historyV.length; i++) {
+        const x = i * stepX;
+        const y = midY - (historyV[i] * (midY * 0.9));
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // ==========================================================================
+    // SERIAL API
+    // ==========================================================================
+    async function connectSerial() {
+      if (!('serial' in navigator)) {
+        alert("Prehliadač nepodporuje Web Serial API! Otvorte Chrome, Edge alebo Opera.");
+        return;
+      }
+      try {
+        port = await navigator.serial.requestPort();
+        await port.open({ baudRate: 115200 });
+
+        keepReading = true;
+        document.getElementById('btnConnect').style.display = 'none';
+        document.getElementById('btnDisconnect').style.display = 'inline-flex';
+        document.getElementById('statusDot').classList.add('connected');
+        document.getElementById('portText').innerText = "Pripojené (115200)";
+        addLogLine("Pripojené k sériovému portu. Čítam JSON API...", "info");
+        playTone(520, "sine", 0.18, 0.15);
+
+        readLoop();
+      } catch (err) {
+        addLogLine("Chyba pripojenia: " + err.message, "err");
+      }
+    }
+
+    async function disconnectSerial() {
+      keepReading = false;
+      if (isManualModeActive) await toggleManualMode();
+      if (reader) { try { await reader.cancel(); } catch (e) {} }
+      if (port) { try { await port.close(); } catch (e) {} port = null; }
+
+      document.getElementById('btnConnect').style.display = 'inline-flex';
+      document.getElementById('btnDisconnect').style.display = 'none';
+      document.getElementById('statusDot').classList.remove('connected');
+      document.getElementById('portText').innerText = "Nepripojené";
+      addLogLine("Port bol odpojený.", "info");
+      playTone(320, "sine", 0.2, 0.15);
+    }
+
+    async function sendSerialCommand(cmd) {
+      if (!port || !port.writable) return;
+      try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(cmd + "\n");
+        const writer = port.writable.getWriter();
+        await writer.write(data);
+        writer.releaseLock();
+      } catch (err) {
+        addLogLine("Chyba odosielania: " + err.message, "err");
+      }
+    }
+
+    async function triggerSkyScan() {
+      if (!port) {
+        alert("Najprv pripojte Arduino!");
+        return;
+      }
+      const btn = document.getElementById('btnSkyScan');
+      btn.classList.add('scanning');
+      playTone(700, "square", 0.2, 0.1);
+      addLogLine(">>> Spúšťam radarový sken oblohy (hľadanie maxima)...", "info");
+      await sendSerialCommand("CMD:SCAN");
+      setTimeout(() => btn.classList.remove('scanning'), 3500);
+    }
+
+    async function readLoop() {
+      const textDecoder = new TextDecoderStream();
+      const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+      reader = textDecoder.readable.getReader();
+
+      let buffer = "";
+
+      try {
+        while (keepReading) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          if (value) {
+            buffer += value;
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (trimmed) processIncomingLine(trimmed);
+            }
+          }
+        }
+      } catch (error) {
+        addLogLine("Chyba: " + error.message, "err");
+      } finally {
+        reader.releaseLock();
+      }
+    }
+
+    let lastStatusWasCenter = false;
+
+    function processIncomingLine(line) {
+      if (line.startsWith('{') && line.endsWith('}')) {
+        try {
+          const data = JSON.parse(line);
+          renderDashboardData(data);
+          addLogLine(line, "json");
+
+          // Store for CSV export
+          telemetryHistory.push({
+            time: new Date().toISOString(),
+            a0: data.a0, a1: data.a1, a2: data.a2, a3: data.a3,
+            d9: data.d9, d8: data.d8,
+            h_err: data.h_err, v_err: data.v_err,
+            status: data.status
+          });
+          if (telemetryHistory.length > 500) telemetryHistory.shift();
+
+          packetCount++;
+          const now = Date.now();
+          if (now - lastTime >= 1000) {
+            document.getElementById('packetRate').innerText = packetCount + " Hz";
+            packetCount = 0;
+            lastTime = now;
+          }
+          return;
+        } catch (e) {}
+      }
+      addLogLine(line, "info");
+    }
+
+    // ==========================================================================
+    // RENDERING & 3D VIRTUAL MODEL
+    // ==========================================================================
+    function renderDashboardData(d) {
+      document.getElementById('txtA0').innerText = d.a0;
+      document.getElementById('txtA1').innerText = d.a1;
+      document.getElementById('txtA2').innerText = d.a2;
+      document.getElementById('txtA3').innerText = d.a3;
+
+      setGlowIntensity('glowA0', d.a0);
+      setGlowIntensity('glowA1', d.a1);
+      setGlowIntensity('glowA2', d.a2);
+      setGlowIntensity('glowA3', d.a3);
+
+      document.getElementById('txtLeftVal').innerText = d.left;
+      document.getElementById('txtRightVal').innerText = d.right;
+      document.getElementById('txtTopVal').innerText = d.top;
+      document.getElementById('txtBottomVal').innerText = d.bottom;
+
+      const totalH = (d.left + d.right) || 1;
+      document.getElementById('progBarH').style.width = ((d.right / totalH) * 100) + "%";
+
+      const totalV = (d.top + d.bottom) || 1;
+      document.getElementById('progBarV').style.width = ((d.top / totalV) * 100) + "%";
+
+      const totalLight = d.a0 + d.a1 + d.a2 + d.a3;
+      document.getElementById('heroLightSum').innerText = totalLight;
+
+      if (totalLight > maxLightRecorded) {
+        maxLightRecorded = totalLight;
+        document.getElementById('txtPeakLight').innerText = maxLightRecorded;
+      }
+
+      // Servos Readouts
+      document.getElementById('txtD9Angle').innerText = d.d9 + "°";
+      document.getElementById('txtD8Angle').innerText = d.d8 + "°";
+      document.getElementById('heroD9').innerText = d.d9 + "°";
+      document.getElementById('heroD8').innerText = d.d8 + "°";
+
+      document.getElementById('progD9').style.width = Math.min(Math.max(((d.d9 - 30) / 90) * 100, 0), 100) + "%";
+      document.getElementById('progD8').style.width = Math.min(Math.max(((d.d8 - 90) / 90) * 100, 0), 100) + "%";
+
+      document.getElementById('txtD9Status').innerText = d.status_h;
+      document.getElementById('txtD8Status').innerText = d.status_v;
+
+      // COOL FEATURE 1: 3D PANEL & SUN POSITION UPDATE
+      // Convert D9 (30° to 120°) to Azimuth yaw degrees (-45° to +45°)
+      const yaw3D = (d.d9 - 75);
+      // Convert D8 (90° to 180°) to Pitch elevation degrees
+      const pitch3D = (d.d8 - 135);
+
+      const panel3D = document.getElementById('panel3D');
+      panel3D.style.transform = `rotateY(${yaw3D}deg) rotateX(${pitch3D}deg)`;
+
+      // Position the 3D Sun based on error offsets
+      const sunOrb = document.getElementById('sunOrb3D');
+      const sunOffsetLeft = 50 + (d.h_err * 35);
+      const sunOffsetTop = 30 + (-d.v_err * 20);
+      sunOrb.style.left = `${Math.min(Math.max(sunOffsetLeft, 15), 85)}%`;
+      sunOrb.style.top = `${Math.min(Math.max(sunOffsetTop, 10), 65)}px`;
+
+      // Mini dots brightness on the 3D panel face
+      document.getElementById('miniTR').style.opacity = Math.min(d.a0 / 800, 1);
+      document.getElementById('miniBR').style.opacity = Math.min(d.a1 / 800, 1);
+      document.getElementById('miniTL').style.opacity = Math.min(d.a2 / 800, 1);
+      document.getElementById('miniBL').style.opacity = Math.min(d.a3 / 800, 1);
+
+      // COOL FEATURE 2: EFFICIENCY CALCULATION
+      // Total alignment error distance = sqrt(h_err^2 + v_err^2)
+      const errDist = Math.sqrt((d.h_err * d.h_err) + (d.v_err * d.v_err));
+      // Cosine efficiency model: 1.0 at 0 err, drops with deviation
+      const effPct = Math.round(Math.max(100 - (errDist * 75), 25));
+      document.getElementById('txtEffVal').innerText = effPct + "%";
+
+      // Circular gauge offset: 264 is circumference of r=42
+      const strokeOffset = 264 - (264 * (effPct / 100));
+      document.getElementById('circleEff').style.strokeDashoffset = strokeOffset;
+
+      // Status & Mode
+      const heroTitle = document.getElementById('heroStatusTitle');
+      const heroIcon = document.getElementById('heroStatusIcon');
+      const txtMode = document.getElementById('txtMode');
+
+      if (d.manual) {
+        txtMode.innerText = "MANUAL";
+        txtMode.style.color = "var(--md-sys-color-primary)";
+        heroTitle.innerText = "MANUÁLNY REŽIM";
+        heroTitle.style.color = "var(--md-sys-color-primary)";
+        heroIcon.innerText = "🎮";
+        lastStatusWasCenter = false;
+      } else {
+        txtMode.innerText = "AUTO";
+        txtMode.style.color = "var(--md-sys-color-secondary)";
+        heroTitle.innerText = d.status;
+
+        if (d.status === "CENTER") {
+          heroTitle.style.color = "var(--md-sys-color-tertiary)";
+          heroIcon.innerText = "🎯";
+          // Play sci-fi sun lock chime when centering
+          if (!lastStatusWasCenter) {
+            playLockChime();
+            lastStatusWasCenter = true;
+          }
+        } else if (d.status === "LOW LIGHT") {
+          heroTitle.style.color = "var(--md-sys-color-outline)";
+          heroIcon.innerText = "🌙";
+          lastStatusWasCenter = false;
+        } else {
+          heroTitle.style.color = "var(--md-sys-color-primary)";
+          heroIcon.innerText = "🔄";
+          lastStatusWasCenter = false;
+        }
+      }
+
+      // Errors
+      document.getElementById('txtHErrVal').innerText = (d.h_err >= 0 ? "+" : "") + d.h_err.toFixed(4);
+      document.getElementById('txtVErrVal').innerText = (d.v_err >= 0 ? "+" : "") + d.v_err.toFixed(4);
+
+      document.getElementById('needleH').style.left = Math.min(Math.max(50 + (d.h_err * 50), 2), 98) + "%";
+      document.getElementById('needleV').style.left = Math.min(Math.max(50 + (d.v_err * 50), 2), 98) + "%";
+
+      historyH.shift(); historyH.push(d.h_err);
+      historyV.shift(); historyV.push(d.v_err);
+      drawChart();
+    }
+
+    function setGlowIntensity(id, val) {
+      const el = document.getElementById(id);
+      el.style.opacity = Math.min(Math.max(val / 950, 0), 1);
+    }
+
+    // ==========================================================================
+    // MANUAL OVERRIDE
+    // ==========================================================================
+    async function toggleManualMode() {
+      if (!port) {
+        alert("Najprv pripojte Arduino cez tlačidlo 'Pripojiť Arduino' vpravo hore!");
+        return;
+      }
+
+      isManualModeActive = !isManualModeActive;
+      const sw = document.getElementById('switchOverride');
+      const badge = document.getElementById('manualBadge');
+      const dpadBtns = document.querySelectorAll('.dpad-btn');
+
+      playTone(isManualModeActive ? 550 : 400, "triangle", 0.12, 0.12);
+
+      if (isManualModeActive) {
+        sw.classList.add('active');
+        badge.innerText = "ZAPNUTÉ";
+        badge.style.color = "var(--md-sys-color-primary)";
+        dpadBtns.forEach(btn => btn.disabled = false);
+
+        await sendSerialCommand("MANUAL:ON");
+        addLogLine("Manuálny režim bol ZAPNUTÝ. Môžete použiť šípky na klávesnici (▲ ▼ ◀ ▶).", "info");
+      } else {
+        sw.classList.remove('active');
+        badge.innerText = "VYPNUTÉ";
+        badge.style.color = "var(--md-sys-color-on-surface-variant)";
+        dpadBtns.forEach(btn => btn.disabled = true);
+
+        await sendSerialCommand("MANUAL:OFF");
+        addLogLine("Manuálny režim bol VYPNUTÝ. Obnovený automatický solar tracking.", "info");
+      }
+    }
+
+    function sendMove(cmd) {
+      if (!isManualModeActive || !port) return;
+      playTone(280, "square", 0.05, 0.06);
+      sendSerialCommand(cmd);
+    }
+
+    function flashButton(btnId) {
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.classList.add('active-press');
+        setTimeout(() => btn.classList.remove('active-press'), 120);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (!isManualModeActive || !port) return;
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault(); sendMove('MOVE:UP'); flashButton('btnDpadUp');
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault(); sendMove('MOVE:DOWN'); flashButton('btnDpadDown');
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault(); sendMove('MOVE:LEFT'); flashButton('btnDpadLeft');
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault(); sendMove('MOVE:RIGHT'); flashButton('btnDpadRight');
+      } else if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault(); sendMove('MOVE:CENTER'); flashButton('btnDpadCenter');
+      }
+    });
+
+    // ==========================================================================
+    // CSV DATA EXPORT
+    // ==========================================================================
+    function exportDataCSV() {
+      if (telemetryHistory.length === 0) {
+        alert("Zatiaľ neboli zaznamenané žiadne dáta telemetrie.");
+        return;
+      }
+      playTone(720, "sine", 0.15, 0.1);
+      let csv = "Timestamp,A0,A1,A2,A3,D9,D8,H_Error,V_Error,Status\n";
+      telemetryHistory.forEach(r => {
+        csv += `${r.time},${r.a0},${r.a1},${r.a2},${r.a3},${r.d9},${r.d8},${r.h_err},${r.v_err},${r.status}\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `solar_tracker_telemetry_${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      addLogLine("Telemetria bola exportovaná do CSV súboru.", "info");
+    }
+
+    function addLogLine(text, type = "info") {
+      const terminal = document.getElementById('terminalStream');
+      const item = document.createElement('div');
+      item.className = "log-line " + type;
+      const time = new Date().toLocaleTimeString();
+      item.innerText = `[${time}] ${text}`;
+      terminal.insertBefore(item, terminal.firstChild);
+
+      while (terminal.children.length > 50) {
+        terminal.removeChild(terminal.lastChild);
+      }
+    }
+
+    function clearConsoleLog() {
+      document.getElementById('terminalStream').innerHTML = "";
+    }
+  </script>
+</body>
+</html>
